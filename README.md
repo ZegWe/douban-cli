@@ -1,4 +1,4 @@
-# douban-cookie
+# douban-cli
 
 用 `.env` 里的豆瓣账号密码打开真实浏览器登录，登录成功后把 cookie 保存到本地文件，并提供 `check` 命令验证 cookie 是否仍可用。
 
@@ -28,7 +28,7 @@ python -m playwright install chromium
 ## 登录并保存 cookie
 
 ```bash
-python -m douban_cookie login --headed
+uv run douban-cli login --headed
 ```
 
 默认输出到 `.douban/`：
@@ -47,7 +47,7 @@ python -m douban_cookie login --headed
 不需要 Playwright 或浏览器时，可以直接生成豆瓣 App 扫码登录二维码：
 
 ```bash
-python -m douban_cookie login-qr --qr-output /tmp/douban-qr.png --timeout 180
+uv run douban-cli login-qr --qr-output /tmp/douban-qr.png --timeout 180
 ```
 
 命令会把二维码 PNG 保存到 `--qr-output`，轮询扫码状态；用豆瓣 App 扫码并确认后，会保存和 `login` 命令相同的 cookie 文件：
@@ -70,7 +70,7 @@ ssh -L 9222:127.0.0.1:9222 <user>@<host>
 然后在 SSH 会话里的项目目录运行：
 
 ```bash
-python -m douban_cookie login --headless --remote-debugging-port 9222 --timeout 600
+uv run douban-cli login --headless --remote-debugging-port 9222 --timeout 600
 ```
 
 脚本会在远端 headless Chrome 里打开豆瓣登录页。你在本地浏览器打开 `http://127.0.0.1:9222`，选择 Douban 页面 target，完成验证码或设备验证；脚本检测到登录 cookie 后会自动保存到 `.douban/`。
@@ -78,7 +78,7 @@ python -m douban_cookie login --headless --remote-debugging-port 9222 --timeout 
 ## 校验 cookie
 
 ```bash
-python -m douban_cookie check
+uv run douban-cli check
 ```
 
 `check` 会加载 `.douban/storage_state.json`，访问 `https://www.douban.com/mine/`。如果被重定向回登录页，说明 cookie 无效或已过期。
@@ -89,10 +89,10 @@ python -m douban_cookie check
 这些命令会复用 `.douban/storage_state.json` 里的 cookie，通过豆瓣网页读取影视条目和搜索结果，不使用旧的 `api.douban.com` 接口。
 
 ```bash
-python -m douban_cookie movie detail 1292052
-python -m douban_cookie movie detail https://movie.douban.com/subject/1292052/ --json
-python -m douban_cookie movie search 肖申克 --limit 5
-python -m douban_cookie movie search 肖申克 --json
+uv run douban-cli movie detail 1292052
+uv run douban-cli movie detail https://movie.douban.com/subject/1292052/ --json
+uv run douban-cli movie search 肖申克 --limit 5
+uv run douban-cli movie search 肖申克 --json
 ```
 
 `movie detail` 会解析条目页里的结构化数据和页面信息块；`movie search` 会解析搜索页内嵌的结果数据。默认输出适合终端阅读；加 `--json` 可以拿到完整结构化结果。
@@ -100,10 +100,10 @@ python -m douban_cookie movie search 肖申克 --json
 ## 常用参数
 
 ```bash
-python -m douban_cookie login --env .env --state .douban/storage_state.json --headed
-python -m douban_cookie login-qr --qr-output /tmp/douban-qr.png
-python -m douban_cookie check --state .douban/storage_state.json
-python -m douban_cookie login --browser-executable /usr/bin/google-chrome-stable
+uv run douban-cli login --env .env --state .douban/storage_state.json --headed
+uv run douban-cli login-qr --qr-output /tmp/douban-qr.png
+uv run douban-cli check --state .douban/storage_state.json
+uv run douban-cli login --browser-executable /usr/bin/google-chrome-stable
 ```
 
 ## 开发验证

@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "douban-cookie"
+name = "douban-cli"
 version = "0.1.0"
 description = "Login to Douban with account/password and save local cookies."
 readme = "README.md"
@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-douban-cookie = "douban_cookie.cli:main"
+douban-cli = "douban_cookie.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["douban_cookie*"]

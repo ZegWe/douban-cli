@@ -349,7 +349,7 @@ def login_and_save(
                             "Install google-chrome-stable/chromium or pass --browser-executable."
                         )
                     _ensure_no_proxy_for_localhost()
-                    profile_tmp = tempfile.TemporaryDirectory(prefix="douban-cookie-cdp-")
+                    profile_tmp = tempfile.TemporaryDirectory(prefix="douban-cli-cdp-")
                     chrome_process = _start_chrome_for_cdp(
                         executable_path=executable_path,
                         remote_debugging=remote_debugging,

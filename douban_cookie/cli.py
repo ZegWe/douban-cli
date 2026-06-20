@@ -41,7 +41,7 @@ def _resolve_headless(args: argparse.Namespace) -> bool:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="douban-cookie",
+        prog="douban-cli",
         description="Login to Douban with account/password and save local cookies.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
